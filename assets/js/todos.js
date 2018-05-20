@@ -4,6 +4,8 @@ Application.View = function() {
 	var view = {
 		li: $("li"),
 
+		deleteButtons: $(".deleteButton"),
+
 		AddToDo: function() {
 			console.log("new task to be added");
 		},
@@ -15,13 +17,25 @@ Application.View = function() {
 		Init: function() {
 			console.log("init called");
 
-			addTaskClickEventListener(this.li);
+			addTaskClickEventListeners(this.li);
+
+			addDeleteButtonEventListeners(this.deleteButtons);
 		}
 	}
 
-	var addTaskClickEventListener = function(li) {
-		li.on("click", function() {
+	var addTaskClickEventListeners = function(listItems) {
+		listItems.on("click", function() {
 			$(this).toggleClass("completed");
+		})
+	}
+
+	var addDeleteButtonEventListeners = function(deleteButtons) {
+		deleteButtons.on("click", function(event) {
+			$(this).parent().fadeOut(function() {
+				$(this).remove();
+			});
+
+			event.stopPropagation();
 		})
 	}
 

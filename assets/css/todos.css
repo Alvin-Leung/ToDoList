@@ -4,6 +4,10 @@
 	border: 2px solid gray;
 }
 
+.deleteButton {
+	color: red;
+}
+
 .completed {
 	text-decoration: line-through;
 	color: gray;
