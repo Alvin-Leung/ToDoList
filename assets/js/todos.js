@@ -1,45 +1,51 @@
 var Application = {};
 
-Application.View = function() {
-	var view = {
-		li: $("li"),
-
-		deleteButtons: $(".deleteButton"),
-
-		AddToDo: function() {
-			console.log("new task to be added");
-		},
-
-		RemoveToDo: function() {
-			console.log("new task to be removed");
-		},
-
+Application.Page = function() {
+	var page = {
 		Init: function() {
-			console.log("init called");
-
-			addTaskClickEventListeners(this.li);
-
-			addDeleteButtonEventListeners(this.deleteButtons);
+			addInputEventListeners($("ul"), $("input"));
 		}
-	}
+	};
 
-	var addTaskClickEventListeners = function(listItems) {
-		listItems.on("click", function() {
-			$(this).toggleClass("completed");
+	var addInputEventListeners = function($ul, input) {
+		input.keypress(function(event) {
+			if (event.which == 13)
+			{
+				addToDo($ul, $(this).val());
+			}
 		})
 	}
 
-	var addDeleteButtonEventListeners = function(deleteButtons) {
-		deleteButtons.on("click", function(event) {
-			$(this).parent().fadeOut(function() {
-				$(this).remove();
-			});
+	var addToDo = function($ul, toDo) {
+		var $li = $("<li>", {
+			text: " " + toDo,
+			click: toggleCompleted
+		});
 
-			event.stopPropagation();
-		})
+		var $span = $("<span>", {
+			text: "X",
+			class: "deleteButton",
+			click: deleteToDo
+		});
+
+		$li.prepend($span);
+
+		$ul.append($li)
 	}
 
-	return view;
+	var deleteToDo = function(event) {
+		$(this).parent().fadeOut(function() {
+			$(this).remove();
+		});
+
+		event.stopPropagation();
+	};
+
+	var toggleCompleted = function() {
+		$(this).toggleClass("completed");
+	};
+
+	return page;
 }();
 
-Application.View.Init();
+Application.Page.Init();
