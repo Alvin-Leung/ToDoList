@@ -12,6 +12,8 @@ Application.Page = function() {
 			if (event.which == 13)
 			{
 				addToDo($ul, $(this).val());
+
+				$(this).val("");
 			}
 		})
 	}
@@ -24,7 +26,6 @@ Application.Page = function() {
 
 		var $span = $("<span>", {
 			text: "X",
-			class: "deleteButton",
 			click: deleteToDo
 		});
 
