@@ -3,36 +3,44 @@ var Application = {};
 Application.Page = function() {
 	var page = {
 		Init: function() {
-			addInputEventListeners($("ul"), $("input"));
+			addInputEventListener();
+
+			addPlusButtonEventListener();
 		}
 	};
 
-	var addInputEventListeners = function($ul, input) {
-		input.keypress(function(event) {
+	var addPlusButtonEventListener = function() {
+		$("h1 i").click(function() {
+			$("input").fadeToggle();
+		});
+	};
+
+	var addInputEventListener = function() {
+		$("input").keypress(function(event) {
 			if (event.which == 13)
 			{
-				addToDo($ul, $(this).val());
+				addToDo($("ul"), $(this).val());
 
 				$(this).val("");
 			}
 		})
-	}
+	};
 
 	var addToDo = function($ul, toDo) {
 		var $li = $("<li>", {
 			text: " " + toDo,
-			click: toggleCompleted
+			click: toggleCompleted,
 		});
 
 		var $span = $("<span>", {
-			text: "X",
+			html: "<i class='fa fa-trash'></i>",
 			click: deleteToDo
 		});
 
 		$li.prepend($span);
 
 		$ul.append($li)
-	}
+	};
 
 	var deleteToDo = function(event) {
 		$(this).parent().fadeOut(function() {
